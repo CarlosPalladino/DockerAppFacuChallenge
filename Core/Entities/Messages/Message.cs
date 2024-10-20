@@ -13,6 +13,10 @@ namespace Core.Entities
         public DateTime CreatedAt { get; set; }
         public string MessageType { get; set; } // Ej: TransactionCreated, UserRegistered, etc.
         public string Status { get; set; } // Pending, Sent, Failed, etc.
+
+
+        public virtual ICollection<MessageLog> MessageLogs { get; set; }
+        public virtual ICollection<QueueMessage> QueueMessages { get; set; }
     }
 
 }

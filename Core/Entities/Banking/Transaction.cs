@@ -14,6 +14,9 @@ namespace Core.Entities
         public string TransactionType { get; set; } // Ej: "Deposit", "Withdrawal", "Transfer", etc.
         public DateTime TransactionDate { get; set; }
         public string Status { get; set; } // Ej: Completed, Pending, Failed, etc.
+
+        public virtual BankAccount BankAccount { get; set; }
+        public virtual User User { get; set; }
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +11,14 @@ namespace Core.Entities
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string Email { get; set; }
-        public string PhoneNumber { get; set; }
         public DateTime RegisteredAt { get; set; }
+
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<UserActivity> UserActivities { get; set; }
+        public virtual ICollection<MessageLog> MessageLogs { get; set; }
     }
+    public  class UserContext : DbContext
 
 }

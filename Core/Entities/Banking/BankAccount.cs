@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core.Entities
 {
@@ -10,6 +11,9 @@ namespace Core.Entities
         public decimal Balance { get; set; }
         public string AccountType { get; set; } // Ej: "Savings", "Checking", etc.
         public DateTime CreatedAt { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 
 }

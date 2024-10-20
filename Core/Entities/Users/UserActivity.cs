@@ -13,6 +13,9 @@ namespace Core.Entities
         public string Activity { get; set; } // Ej: "Login", "UpdatedProfile", etc.
         public DateTime ActivityAt { get; set; }
         public string Status { get; set; } // Ej: Success, Failed, etc.
+
+        public virtual User User { get; set; }
+
     }
 
 }
