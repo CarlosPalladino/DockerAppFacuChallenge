@@ -19,6 +19,5 @@ namespace Core.Entities
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<MessageLog> MessageLogs { get; set; }
     }
-    public  class UserContext : DbContext
 
 }

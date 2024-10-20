@@ -9,7 +9,7 @@ namespace Core.Entities
         public Guid UserId { get; set; }
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
-        public string AccountType { get; set; } // Ej: "Savings", "Checking", etc.
+        public string AccountType { get; set; } 
         public DateTime CreatedAt { get; set; }
 
         public virtual User User { get; set; }
