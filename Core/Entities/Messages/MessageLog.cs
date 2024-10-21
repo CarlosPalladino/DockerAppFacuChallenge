@@ -9,8 +9,8 @@ namespace Core.Entities
         public string MessageContent { get; set; }
         public DateTime ProcessedAt { get; set; }
         public string Status { get; set; } // Procesado, fallido, etc.
-
-
+        public Guid MessageId { get; set; }  
+        public Guid UserId { get; set; }
         public virtual Message Message { get; set; }
         public virtual User User { get; set; }
 
