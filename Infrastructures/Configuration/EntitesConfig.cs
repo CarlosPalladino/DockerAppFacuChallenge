@@ -1,28 +1,14 @@
 ﻿using Core.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Context
+namespace Infrastructures.Configuration
 {
-    public class ApplicationDbContext : DbContext
+    public class EntitesConfig
     {
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserActivity> UsersActivies { get; set; }
-
-        public DbSet<Message> Messages { get; set; }
-
-        public DbSet<MessageLog> MesssageLogs { get; set; }
-
-        public DbSet<QueueMessage> QueueMessages { get; set; }
-
+        #region User
         public class UserConfig : IEntityTypeConfiguration<User>
         {
-
-            // Configuración de User
             public void Configure(EntityTypeBuilder<User> builder)
             {
                 builder.ToTable("Users");
@@ -38,7 +24,15 @@ namespace Infrastructure.Context
                 builder.HasMany(x => x.MessageLogs).WithOne().HasForeignKey(ml => ml.UserId);
             }
 
-            // Configuración de UserActivity
+
+
+        }
+        #endregion
+
+        #region UserActivity
+
+        public class UserActivityConfig : IEntityTypeConfiguration<UserActivity>
+        {
             public void Configure(EntityTypeBuilder<UserActivity> builder)
             {
                 builder.ToTable("UserActivities");
@@ -51,20 +45,26 @@ namespace Infrastructure.Context
                 // Relaciones
                 builder.HasOne(x => x.User).WithMany(u => u.UserActivities).HasForeignKey(x => x.UserId);
             }
+            #endregion
 
-            // Configuración de QueueMessage
-            public void Configure(EntityTypeBuilder<QueueMessage> builder)
+            #region QueueMessage
+            public class QueueMessageConfig : IEntityTypeConfiguration<QueueMessage>
             {
-                builder.ToTable("QueueMessages");
-                builder.HasKey(x => x.Id);
-                builder.Property(x => x.Id).HasColumnName("id").IsRequired();
-                builder.Property(x => x.SentAt).HasColumnName("sentAt").IsRequired();
-                builder.Property(x => x.QuueMessage).HasColumnName("queueMessage").IsRequired();
-                // Relaciones
-                builder.HasOne(x => x.Message).WithMany(m => m.QueueMessages).HasForeignKey(x => x.MessageId);
-            }
+                public void Configure(EntityTypeBuilder<QueueMessage> builder)
+                {
+                    builder.ToTable("QueueMessages");
+                    builder.HasKey(x => x.Id);
+                    builder.Property(x => x.Id).HasColumnName("id").IsRequired();
+                    builder.Property(x => x.SentAt).HasColumnName("sentAt").IsRequired();
+                    builder.Property(x => x.QueueMessages).HasColumnName("queueMessage").IsRequired();
+                    // Relaciones
+                    builder.HasOne(x => x.Message).WithMany(m => m.QueueMessages).HasForeignKey(x => x.MessageId);
+                }
 
-            // Configuración de MessageLog
+            }
+            #endregion
+
+            #region MessageLog
             public void Configure(EntityTypeBuilder<MessageLog> builder)
             {
                 builder.ToTable("MessageLogs");
@@ -78,8 +78,8 @@ namespace Infrastructure.Context
                 builder.HasOne(x => x.Message).WithMany(m => m.MessageLogs).HasForeignKey(x => x.MessageId);
                 builder.HasOne(x => x.User).WithMany(u => u.MessageLogs).HasForeignKey(x => x.UserId);
             }
-
-            // Configuración de Message
+            #endregion
+            #region Message
             public void Configure(EntityTypeBuilder<Message> builder)
             {
                 builder.ToTable("Messages");
@@ -93,8 +93,9 @@ namespace Infrastructure.Context
                 builder.HasMany(x => x.MessageLogs).WithOne(ml => ml.Message).HasForeignKey(ml => ml.MessageId);
                 builder.HasMany(x => x.QueueMessages).WithOne(qm => qm.Message).HasForeignKey(qm => qm.MessageId);
             }
+            #endregion
 
-            // Configuración de Transaction
+            #region Transaction
             public void Configure(EntityTypeBuilder<Transaction> builder)
             {
                 builder.ToTable("Transactions");
@@ -109,26 +110,9 @@ namespace Infrastructure.Context
                 builder.HasOne(x => x.User).WithMany(u => u.Transactions).HasForeignKey(x => x.UserId);
                 builder.HasOne(x => x.BankAccount).WithMany(ba => ba.Transactions).HasForeignKey(x => x.BankAccountId);
             }
-
-            // Configuración de BankAccount
-            public void Configure(EntityTypeBuilder<BankAccount> builder)
-            {
-                builder.ToTable("BankAccounts");
-                builder.HasKey(x => x.Id);
-                builder.Property(x => x.Id).HasColumnName("id").IsRequired();
-                builder.Property(x => x.UserId).HasColumnName("userId").IsRequired();
-                builder.Property(x => x.AccountNumber).HasColumnName("accountNumber").IsRequired();
-                builder.Property(x => x.Balance).HasColumnName("balance").IsRequired();
-                builder.Property(x => x.AccountType).HasColumnName("accountType").IsRequired();
-                builder.Property(x => x.CreatedAt).HasColumnName("createdAt").IsRequired();
-                // Relaciones
-                builder.HasOne(x => x.User).WithMany(u => u.BankAccounts).HasForeignKey(x => x.UserId);
-                builder.HasMany(x => x.Transactions).WithOne(t => t.BankAccount).HasForeignKey(t => t.BankAccountId);
-            }
+            #endregion
 
         }
-
-
 
     }
 }

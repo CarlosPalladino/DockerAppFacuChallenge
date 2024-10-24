@@ -2,18 +2,18 @@
 
 namespace Core.Entities
 {
-    public class MessageLog
+    public record MessageLog
     {
-        public Guid Id { get; set; }
-        public string QueueName { get; set; }
-        public string MessageContent { get; set; }
-        public DateTime ProcessedAt { get; set; }
-        public string Status { get; set; } // Procesado, fallido, etc.
-        public Guid MessageId { get; set; }  
-        public Guid UserId { get; set; }
-        public virtual Message Message { get; set; }
-        public virtual User User { get; set; }
+        public Guid Id { get; init; }
+        public string QueueName { get; init; }
+        public string MessageContent { get; init; }
+        public DateTime ProcessedAt { get; init; }
+        public string Status { get; init; }
+        public Guid MessageId { get; init; }
+        public Guid UserId { get; init; }
+        public Message Message { get; init; }
+        public User User { get; init; }
+
 
     }
-
 }

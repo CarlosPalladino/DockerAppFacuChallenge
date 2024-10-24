@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class UserActivity
+    public record UserActivity
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public string Activity { get; set; } // Ej: "Login", "UpdatedProfile", etc.
-        public DateTime ActivityAt { get; set; }
-        public string Status { get; set; } // Ej: Success, Failed, etc.
-
-        public virtual User User { get; set; }
+        public Guid Id { get; init; }
+        public Guid UserId { get; init; }
+        public string Activity { get; init; }
+        public DateTime ActivityAt { get; init; }
+        public string Status { get; init; }
+        public User User { get; init; }
 
     }
-
 }
