@@ -16,11 +16,10 @@ namespace Infrastructures.Configuration
             builder.Property(x => x.Email).HasColumnName("email").IsRequired();
             builder.Property(x => x.RegisteredAt).HasColumnName("registeredAt").IsRequired();
 
-            // Relaciones
-            builder.HasMany(x => x.BankAccounts).WithOne().HasForeignKey(ba => ba.UserId);
-            builder.HasMany(x => x.Transactions).WithOne().HasForeignKey(t => t.UserId);
-            builder.HasMany(x => x.UserActivities).WithOne().HasForeignKey(ua => ua.UserId);
-            builder.HasMany(x => x.MessageLogs).WithOne().HasForeignKey(ml => ml.UserId);
+            // Relación User -> BankAccounts
+            builder.HasMany(u => u.BankAccounts)
+                   .WithOne(b => b.User)
+                   .HasForeignKey(b => b.UserId);
         }
     }
     #endregion
@@ -53,10 +52,12 @@ namespace Infrastructures.Configuration
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id").IsRequired();
             builder.Property(x => x.SentAt).HasColumnName("sentAt").IsRequired();
-            builder.Property(x => x.QueueMessages).HasColumnName("queueMessage").IsRequired();
+            builder.Property(x => x.QuueMessage).HasColumnName("queueMessage").IsRequired();
 
-            // Relaciones
-            builder.HasOne(x => x.Message).WithMany(m => m.QueueMessages).HasForeignKey(x => x.MessageId);
+            // Relación unidireccional sin configuración de eliminación en cascada
+            builder.HasOne(x => x.Message)
+                   .WithMany() // No especificamos la colección en Message
+                   .HasForeignKey(x => x.MessageId);
         }
     }
     #endregion
@@ -74,9 +75,14 @@ namespace Infrastructures.Configuration
             builder.Property(x => x.ProcessedAt).HasColumnName("processedAt").IsRequired();
             builder.Property(x => x.Status).HasColumnName("status").IsRequired();
 
-            // Relaciones
-            builder.HasOne(x => x.Message).WithMany(m => m.MessageLogs).HasForeignKey(x => x.MessageId);
-            builder.HasOne(x => x.User).WithMany(u => u.MessageLogs).HasForeignKey(x => x.UserId);
+            // Relaciones sin configuración de eliminación en cascada
+            builder.HasOne(x => x.Message)
+                   .WithMany(m => m.MessageLogs)
+                   .HasForeignKey(x => x.MessageId);
+
+            builder.HasOne(x => x.User)
+                   .WithMany(u => u.MessageLogs)
+                   .HasForeignKey(x => x.UserId);
         }
     }
     #endregion
@@ -94,9 +100,10 @@ namespace Infrastructures.Configuration
             builder.Property(x => x.MessageType).HasColumnName("messageType").IsRequired();
             builder.Property(x => x.Status).HasColumnName("status").IsRequired();
 
-            // Relaciones
-            builder.HasMany(x => x.MessageLogs).WithOne(ml => ml.Message).HasForeignKey(ml => ml.MessageId);
-            builder.HasMany(x => x.QueueMessages).WithOne(qm => qm.Message).HasForeignKey(qm => qm.MessageId);
+            // Configuración solo de la colección MessageLogs sin eliminación en cascada
+            builder.HasMany(x => x.MessageLogs)
+                   .WithOne(ml => ml.Message)
+                   .HasForeignKey(ml => ml.MessageId);
         }
     }
     #endregion
@@ -109,16 +116,41 @@ namespace Infrastructures.Configuration
             builder.ToTable("Transactions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id").IsRequired();
-            builder.Property(x => x.UserId).HasColumnName("userId").IsRequired();
             builder.Property(x => x.Amount).HasColumnName("amount").HasColumnType("decimal(18,2)").IsRequired();
-            builder.Property(x => x.TransactionType).HasColumnName("transactionType").IsRequired();
+            builder.Property(x => x.TransactionType).HasColumnName("transactionType");
             builder.Property(x => x.TransactionDate).HasColumnName("transactionDate").IsRequired();
-            builder.Property(x => x.Status).HasColumnName("status").IsRequired();
+            builder.Property(x => x.Status).HasColumnName("status");
 
-            // Relaciones
-            builder.HasOne(x => x.User).WithMany(u => u.Transactions).HasForeignKey(x => x.UserId);
-            builder.HasOne(x => x.BankAccount).WithMany(ba => ba.Transactions).HasForeignKey(x => x.BankAccountId);
+            // Relación Transaction -> BankAccount
+            builder.HasOne(t => t.BankAccount)
+                   .WithMany(b => b.Transactions)
+                   .HasForeignKey(t => t.BankAccountId);
         }
+    }
+}
+#endregion
+#region BankAccount 
+public class BankAccountConfig : IEntityTypeConfiguration<BankAccount>
+{
+    public void Configure(EntityTypeBuilder<BankAccount> builder)
+    {
+        builder.ToTable("BankAccounts");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasColumnName("id").IsRequired();
+        builder.Property(x => x.AccountNumber).HasColumnName("accountNumber").IsRequired();
+        builder.Property(x => x.Balance).HasColumnName("balance").HasColumnType("decimal(18,2)").IsRequired();
+        builder.Property(x => x.AccountType).HasColumnName("accountType").IsRequired();
+        builder.Property(x => x.CreatedAt).HasColumnName("createdAt").IsRequired();
+
+        // Relación BankAccount -> Transactions
+        builder.HasMany(b => b.Transactions)
+               .WithOne(t => t.BankAccount)
+               .HasForeignKey(t => t.BankAccountId);
+
+        // Relación BankAccount -> User
+        builder.HasOne(b => b.User)
+               .WithMany(u => u.BankAccounts)
+               .HasForeignKey(b => b.UserId);
     }
 }
 #endregion

@@ -2,8 +2,9 @@
 
 namespace Core.Entities
 {
-    public class QueueMessage : Message
+    public class QueueMessage
     {
+        public Guid Id { get; set; }
         public Guid MessageId { get; set; }
         public DateTime SentAt { get; set; }
         public string QuueMessage { get; set; }

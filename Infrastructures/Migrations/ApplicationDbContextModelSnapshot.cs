@@ -62,11 +62,6 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<string>("MessageType")
                         .HasColumnType("nvarchar(max)");
 
@@ -76,10 +71,6 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
-
-                    b.HasDiscriminator().HasValue("Message");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Core.Entities.MessageLog", b =>
@@ -115,6 +106,28 @@ namespace Infrastructures.Migrations
                     b.ToTable("MessageLogs");
                 });
 
+            modelBuilder.Entity("Core.Entities.QueueMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("QuueMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("QueueMessages");
+                });
+
             modelBuilder.Entity("Core.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -136,14 +149,9 @@ namespace Infrastructures.Migrations
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BankAccountId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -193,24 +201,6 @@ namespace Infrastructures.Migrations
                     b.ToTable("UsersActivies");
                 });
 
-            modelBuilder.Entity("Core.Entities.QueueMessage", b =>
-                {
-                    b.HasBaseType("Core.Entities.Message");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("QuueMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasIndex("MessageId");
-
-                    b.HasDiscriminator().HasValue("QueueMessage");
-                });
-
             modelBuilder.Entity("Core.Entities.BankAccount", b =>
                 {
                     b.HasOne("Core.Entities.User", "User")
@@ -241,6 +231,17 @@ namespace Infrastructures.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Entities.QueueMessage", b =>
+                {
+                    b.HasOne("Core.Entities.Message", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("Core.Entities.Transaction", b =>
                 {
                     b.HasOne("Core.Entities.BankAccount", "BankAccount")
@@ -249,15 +250,7 @@ namespace Infrastructures.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.User", "User")
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BankAccount");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Entities.UserActivity", b =>
@@ -271,17 +264,6 @@ namespace Infrastructures.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.QueueMessage", b =>
-                {
-                    b.HasOne("Core.Entities.Message", "Message")
-                        .WithMany("QueueMessages")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Message");
-                });
-
             modelBuilder.Entity("Core.Entities.BankAccount", b =>
                 {
                     b.Navigation("Transactions");
@@ -290,8 +272,6 @@ namespace Infrastructures.Migrations
             modelBuilder.Entity("Core.Entities.Message", b =>
                 {
                     b.Navigation("MessageLogs");
-
-                    b.Navigation("QueueMessages");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -299,8 +279,6 @@ namespace Infrastructures.Migrations
                     b.Navigation("BankAccounts");
 
                     b.Navigation("MessageLogs");
-
-                    b.Navigation("Transactions");
 
                     b.Navigation("UserActivities");
                 });

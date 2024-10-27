@@ -10,11 +10,14 @@ namespace Core.Entities
         public string Email { get; set; }
         public DateTime RegisteredAt { get; set; }
 
+        // Relación con BankAccounts
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+
+        // Otras propiedades de navegación
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<MessageLog> MessageLogs { get; set; }
     }
+
 
 
 }
