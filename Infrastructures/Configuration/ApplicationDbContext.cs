@@ -14,7 +14,7 @@ namespace Infrastructure.Context
 
         public DbSet<Message> Messages { get; set; }
 
-        public DbSet<MessageLog> MesssageLogs { get; set; }
+        public DbSet<MessageLog> MessageLogs { get; set; }
 
         public DbSet<QueueMessage> QueueMessages { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
