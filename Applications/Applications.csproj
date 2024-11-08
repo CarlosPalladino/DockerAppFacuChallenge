@@ -42,11 +42,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\BankInterface\IBankInterface.cs" />
+    <Compile Include="Interfaces\BankInterface\ITransacitonInterface.cs" />
+    <Compile Include="Interfaces\MessageInterface\IMesasageInterface.cs" />
+    <Compile Include="Interfaces\MessageInterface\IMessageLogInterface.cs" />
+    <Compile Include="Interfaces\MessageInterface\IQueueInterface.cs" />
+    <Compile Include="Interfaces\UserInterface\IuserActivityInterface.cs" />
+    <Compile Include="Interfaces\UserInterface\IUserInteface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\BankRequests\BankAccountRequest.cs" />
+    <Compile Include="Requests\BankRequests\TransactionRequest.cs" />
+    <Compile Include="Requests\MessageRequests\MessageLogsRequest.cs" />
+    <Compile Include="Requests\MessageRequests\MessageRequest.cs" />
+    <Compile Include="Requests\MessageRequests\QueueMessageRequest.cs" />
+    <Compile Include="Requests\UserRequests\UserActivityRequest.cs" />
+    <Compile Include="Requests\UserRequests\UserRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <Folder Include="Responses\BankResponses\" />
+    <Folder Include="Responses\MessagesResponses\" />
+    <Folder Include="Responses\usersResponses\" />
+    <Folder Include="Services\BankService\" />
+    <Folder Include="Services\MessageService\" />
+    <Folder Include="Services\UserInterface\" />
     <Folder Include="UseCases\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
