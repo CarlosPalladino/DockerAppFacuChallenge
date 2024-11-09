@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\BankInterface\IBankInterface.cs" />
     <Compile Include="Interfaces\BankInterface\ITransacitonInterface.cs" />
     <Compile Include="Interfaces\MessageInterface\IMesasageInterface.cs" />
@@ -56,15 +55,21 @@
     <Compile Include="Requests\MessageRequests\MessageRequest.cs" />
     <Compile Include="Requests\MessageRequests\QueueMessageRequest.cs" />
     <Compile Include="Requests\UserRequests\UserActivityRequest.cs" />
-    <Compile Include="Requests\UserRequests\UserRequest.cs" />
+    <Compile Include="Requests\UserRequests\UsersRequest.cs" />
+    <Compile Include="Responses\BankResponses\BankAccountResponse.cs" />
+    <Compile Include="Responses\BankResponses\TransactionResponse.cs" />
+    <Compile Include="Responses\MessagesResponses\MessageLogResponse.cs" />
+    <Compile Include="Responses\MessagesResponses\MessageResponse.cs" />
+    <Compile Include="Responses\MessagesResponses\QueueMessageResponse.cs" />
+    <Compile Include="Responses\UsersResponses\UserActitvityResponse.cs" />
+    <Compile Include="Responses\UsersResponses\UseResponse.cs" />
+    <Compile Include="Services\BankService\BankService.cs" />
+    <Compile Include="Services\BankService\TransactionService.cs" />
+    <Compile Include="Services\UserInterface\UserActitvityService.cs" />
+    <Compile Include="Services\UserInterface\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Responses\BankResponses\" />
-    <Folder Include="Responses\MessagesResponses\" />
-    <Folder Include="Responses\usersResponses\" />
-    <Folder Include="Services\BankService\" />
     <Folder Include="Services\MessageService\" />
-    <Folder Include="Services\UserInterface\" />
     <Folder Include="UseCases\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
