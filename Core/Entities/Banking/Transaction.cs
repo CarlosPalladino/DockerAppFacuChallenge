@@ -9,8 +9,6 @@ namespace Core.Entities
         public string TransactionType { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Status { get; set; }
-
-        // Relación con BankAccount
         public Guid BankAccountId { get; set; }
         public virtual BankAccount BankAccount { get; set; }
     }

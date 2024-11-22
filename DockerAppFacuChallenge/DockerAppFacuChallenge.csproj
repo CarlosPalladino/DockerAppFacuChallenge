@@ -15,14 +15,12 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.0.0" />
 		<!-- Actualiza a la versión 6.9.0 -->
 	</ItemGroup>
 
-	<ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
   <ItemGroup>
+    <ProjectReference Include="..\Applications\Applications.csproj" />
     <ProjectReference Include="..\Infrastructures\Infrastructures.csproj" />
   </ItemGroup>
 

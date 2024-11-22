@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\MessageInterface\IQueueInterface.cs" />
     <Compile Include="Interfaces\UserInterface\IuserActivityInterface.cs" />
     <Compile Include="Interfaces\UserInterface\IUserInteface.cs" />
+    <Compile Include="Mapper\BankMapper\BankMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\BankRequests\BankAccountRequest.cs" />
     <Compile Include="Requests\BankRequests\TransactionRequest.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Services\UserInterface\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Mapper\MessagesMapper\" />
+    <Folder Include="Mapper\UserMapper\" />
     <Folder Include="Services\MessageService\" />
     <Folder Include="UseCases\" />
   </ItemGroup>
