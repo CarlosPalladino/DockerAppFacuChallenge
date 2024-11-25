@@ -63,16 +63,11 @@
     <Compile Include="Responses\MessagesResponses\MessageResponse.cs" />
     <Compile Include="Responses\MessagesResponses\QueueMessageResponse.cs" />
     <Compile Include="Responses\UsersResponses\UserActitvityResponse.cs" />
-    <Compile Include="Responses\UsersResponses\UseResponse.cs" />
-    <Compile Include="Services\BankService\BankService.cs" />
-    <Compile Include="Services\BankService\TransactionService.cs" />
-    <Compile Include="Services\UserInterface\UserActitvityService.cs" />
-    <Compile Include="Services\UserInterface\UserService.cs" />
+    <Compile Include="Responses\UsersResponses\UserResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mapper\MessagesMapper\" />
     <Folder Include="Mapper\UserMapper\" />
-    <Folder Include="Services\MessageService\" />
     <Folder Include="UseCases\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

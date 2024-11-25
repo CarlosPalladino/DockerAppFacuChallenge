@@ -1,20 +1,33 @@
 ﻿using Applications.Interfaces.BankInterface;
 using Applications.Request;
-using System;
-using System.Threading.Tasks;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Applications.Services.UserInterface
 {
-    internal class UserService : IUserInteface
+
+    public class UserService : IUserInteface
     {
+        private ApplicationDbContext _context;
+
+
+        public UserService(ApplicationDbContext context)
+        {
+            context = _context;
+        }
         public Task CreateUSer(UsersRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetUserById(int id, string name)
+        public async Task GetUserByName(string name)
         {
-            throw new NotImplementedException();
+            var asd = await _context.Users
+                .Where(us => us.Name.Equals(name))
+                .FirstOrDefaultAsync();
+
+            //return asd;
         }
 
         public Task GetUsers()
